@@ -1,4 +1,20 @@
 services:
+  prj:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      products_postgres:
+        condition: service_healthy
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+    volumes:
+      - ./backend/cmd/log:/backend/cmd/log
+
   products_postgres:
     image: postgres
     ports:
