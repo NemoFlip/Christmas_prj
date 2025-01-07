@@ -3,6 +3,7 @@ package pkg
 import (
 	"database/sql"
 	"fmt"
+	_ "github.com/lib/pq"
 )
 
 func ConnectToPostgres(host, user, password, port, dbname, sslmode string) (*sql.DB, error) {
