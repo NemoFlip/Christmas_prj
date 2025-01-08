@@ -3,8 +3,10 @@ package main
 import (
 	"Christmas_prj/backend/internal/database"
 	"Christmas_prj/backend/internal/delivery"
+	"Christmas_prj/backend/internal/delivery/handlers"
 	"Christmas_prj/backend/pkg"
 	"Christmas_prj/backend/pkg/log"
+	_ "Christmas_prj/docs"
 	"os"
 )
 
@@ -41,5 +43,6 @@ func main() {
 		logger.ErrorLogger.Fatal().Msg(err.Error())
 	}
 	_ = database.NewProductsStorage(db)
-	delivery.StartServer(logger)
+	apiServer := handlers.NewAPIServer(logger)
+	delivery.StartServer(logger, apiServer)
 }
