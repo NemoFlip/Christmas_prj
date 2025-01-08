@@ -1,0 +1,68 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Simple project with recommendation system",
+        "title": "Christmas prj",
+        "contact": {}
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/api/users/data": {
+            "post": {
+                "description": "post request from user for present recommendation",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API"
+                ],
+                "summary": "User request",
+                "parameters": [
+                    {
+                        "description": "user's preferences",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "user's preferences has been accepted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid user's data",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entity.User": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "interests": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "job": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

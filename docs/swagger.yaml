@@ -1,0 +1,44 @@
+basePath: /
+definitions:
+  entity.User:
+    properties:
+      age:
+        type: integer
+      interests:
+        items:
+          type: string
+        type: array
+      job:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Simple project with recommendation system
+  title: Christmas prj
+paths:
+  /api/users/data:
+    post:
+      consumes:
+      - application/json
+      description: post request from user for present recommendation
+      parameters:
+      - description: user's preferences
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entity.User'
+      responses:
+        "200":
+          description: user's preferences has been accepted
+          schema:
+            type: string
+        "400":
+          description: invalid user's data
+          schema:
+            type: string
+      summary: User request
+      tags:
+      - API
+swagger: "2.0"
