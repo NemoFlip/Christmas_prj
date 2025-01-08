@@ -6,8 +6,8 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      products_postgres:
-        condition: service_healthy
+      set_migrations:
+        condition: service_completed_successfully
     environment:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
@@ -29,3 +29,15 @@ services:
       timeout: 5s
       retries: 3
 
+  set_migrations:
+    image: gomicro/goose
+    command: goose -dir /app/migrations postgres "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@products_postgres:5432/$POSTGRES_DB?sslmode=disable" up
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+    volumes:
+      - ./backend/internal/database/migrations:/app/migrations
+    depends_on:
+      products_postgres:
+        condition: service_healthy
