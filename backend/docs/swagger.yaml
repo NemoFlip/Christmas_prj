@@ -1,6 +1,6 @@
 basePath: /
 definitions:
-  entity.User:
+  payload.UserRequest:
     properties:
       age:
         type: integer
@@ -8,8 +8,12 @@ definitions:
         items:
           type: string
         type: array
-      job:
+      sex:
         type: string
+    required:
+    - age
+    - interests
+    - sex
     type: object
 host: localhost:8080
 info:
@@ -28,12 +32,16 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/entity.User'
+          $ref: '#/definitions/payload.UserRequest'
+      produces:
+      - application/json
       responses:
         "200":
           description: user's preferences has been accepted
           schema:
-            type: string
+            additionalProperties:
+              type: string
+            type: object
         "400":
           description: invalid user's data
           schema:

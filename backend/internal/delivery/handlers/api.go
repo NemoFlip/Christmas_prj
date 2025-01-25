@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"Christmas_prj/backend/internal/entity"
+	"Christmas_prj/backend/internal/payload"
 	"Christmas_prj/backend/pkg/log"
 	"bytes"
 	"encoding/json"
@@ -22,12 +22,12 @@ func NewAPIServer(logger *log.Logger) *APIServer {
 // @Tags API
 // @Accept json
 // @Produce json
-// @Param user body entity.User true "user's preferences"
+// @Param user body payload.UserRequest true "user's preferences"
 // @Success 200 {object} map[string]string "user's preferences has been accepted"
 // @Failure 400 {object} string "invalid user's data"
 // @Router /api/users/data [post]
 func (s *APIServer) PostUserInfo(ctx *gin.Context) {
-	var user entity.User
+	var user payload.UserRequest
 	if err := ctx.BindJSON(&user); err != nil {
 		s.logger.ErrorLogger.Error().Msgf("unable to bind user: %s", err)
 		ctx.Writer.WriteHeader(http.StatusBadRequest)
@@ -53,6 +53,7 @@ func (s *APIServer) PostUserInfo(ctx *gin.Context) {
 		ctx.Writer.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+	// TODO: сопоставлять ответ с базой данных и выдать ответ frontend
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"success": resp.Status,

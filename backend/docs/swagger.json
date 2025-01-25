@@ -14,6 +14,9 @@
                 "consumes": [
                     "application/json"
                 ],
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "API"
                 ],
@@ -25,7 +28,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.User"
+                            "$ref": "#/definitions/payload.UserRequest"
                         }
                     }
                 ],
@@ -33,7 +36,10 @@
                     "200": {
                         "description": "user's preferences has been accepted",
                         "schema": {
-                            "type": "string"
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     },
                     "400": {
@@ -47,8 +53,13 @@
         }
     },
     "definitions": {
-        "entity.User": {
+        "payload.UserRequest": {
             "type": "object",
+            "required": [
+                "age",
+                "interests",
+                "sex"
+            ],
             "properties": {
                 "age": {
                     "type": "integer"
@@ -59,7 +70,7 @@
                         "type": "string"
                     }
                 },
-                "job": {
+                "sex": {
                     "type": "string"
                 }
             }

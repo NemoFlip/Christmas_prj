@@ -6,8 +6,6 @@ COPY ../go.mod ../go.sum ./
 
 RUN go mod download
 
-COPY docs/ docs/
-
 COPY backend/ backend/
 
 RUN go build -o /app/main ./backend/cmd/main.go
