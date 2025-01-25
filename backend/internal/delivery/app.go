@@ -16,9 +16,9 @@ import (
 func StartServer(logger *log.Logger, apiServer *handlers.APIServer) {
 	r := gin.Default()
 
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.InitRouting(r, logger, apiServer)
 
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	if err := r.Run(":8080"); err != nil {
 		logger.ErrorLogger.Fatal().Msgf("unable to run server on port(8080): %s", err)
 	}

@@ -21,6 +21,9 @@ const docTemplate = `{
                 "consumes": [
                     "application/json"
                 ],
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "API"
                 ],
@@ -32,7 +35,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.User"
+                            "$ref": "#/definitions/payload.UserRequest"
                         }
                     }
                 ],
@@ -40,7 +43,10 @@ const docTemplate = `{
                     "200": {
                         "description": "user's preferences has been accepted",
                         "schema": {
-                            "type": "string"
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     },
                     "400": {
@@ -54,8 +60,13 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "entity.User": {
+        "payload.UserRequest": {
             "type": "object",
+            "required": [
+                "age",
+                "interests",
+                "sex"
+            ],
             "properties": {
                 "age": {
                     "type": "integer"
@@ -66,7 +77,7 @@ const docTemplate = `{
                         "type": "string"
                     }
                 },
-                "job": {
+                "sex": {
                     "type": "string"
                 }
             }
