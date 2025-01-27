@@ -35,6 +35,7 @@ func (as *GiftServer) PostGiftInfo(ctx *gin.Context) {
 		ctx.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	giftRequest.TopN = 10
 
 	giftResponse, err := as.mlGateway.GetGiftRecommendation(giftRequest)
 	if err != nil {
