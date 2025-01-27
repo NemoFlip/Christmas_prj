@@ -40,6 +40,10 @@ def recommend_gifts(request: GiftRequest):
     else:
         logger.warning("Не удалось найти подарки")
         return []
+        
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
 if __name__ == "__main__":
     logger.info("Запуск FastAPI приложения")
