@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .  # Собираем из текущей директории
-      dockerfile: Dockerfile  # Используем Dockerfile
+      dockerfile: ml/Dockerfile  # Используем Dockerfile
     container_name: app
     ports:
       - "8000:8000"  # Порт для FastAPI
