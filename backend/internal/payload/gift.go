@@ -2,6 +2,7 @@ package payload
 
 type GiftRequest struct {
 	Description string `json:"description" validate:"required"`
+	TopN        int    `json:"top_n"`
 }
 
 type GiftResponse struct {
