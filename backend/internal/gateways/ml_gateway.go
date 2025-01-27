@@ -16,7 +16,7 @@ func NewMLGateway(MLURL string) *MLGateway {
 	return &MLGateway{MLURL: MLURL}
 }
 
-func (mlg *MLGateway) GetGiftRecommendation(giftRequest payload.GiftRequest) (*payload.GiftResponse, error) {
+func (mlg *MLGateway) GetGiftRecommendation(giftRequest payload.GiftRequest) ([]payload.GiftResponse, error) {
 	giftRequestJSON, err := json.Marshal(giftRequest)
 	if err != nil {
 		return nil, fmt.Errorf("unable to convert user struct to json: %s", err)
@@ -32,14 +32,15 @@ func (mlg *MLGateway) GetGiftRecommendation(giftRequest payload.GiftRequest) (*p
 	return validateMLResponse(resp)
 }
 
-func validateMLResponse(response *http.Response) (*payload.GiftResponse, error) {
+func validateMLResponse(response *http.Response) ([]payload.GiftResponse, error) {
 	if response.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("ML model responded with status: %d", response.StatusCode)
 	}
 
-	var giftResponse payload.GiftResponse
+	var giftResponse []payload.GiftResponse
 	if err := json.NewDecoder(response.Body).Decode(&giftResponse); err != nil {
 		return nil, fmt.Errorf("failed to decode ML response: %s", err)
 	}
-	return &giftResponse, nil
+	fmt.Println(giftResponse)
+	return giftResponse, nil
 }
