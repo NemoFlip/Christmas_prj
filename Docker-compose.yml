@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      context: .  # Собираем из текущей директории
+      dockerfile: ml/Dockerfile  # Используем Dockerfile
+    container_name: app
+    ports:
+      - "8000:8000"  # Порт для FastAPI
+    environment:
+      - MODEL_NAME=${MODEL_NAME}  # Переменные окружения из .env
+      - CLICKHOUSE_HOST=${CLICKHOUSE_HOST}  # Хост внешней ClickHouse
+      - CLICKHOUSE_USER=${CLICKHOUSE_USER}
+      - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD}
+      - CLICKHOUSE_DATABASE=${CLICKHOUSE_DATABASE}
