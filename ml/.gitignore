@@ -1,0 +1,36 @@
+# Игнорировать виртуальное окружение
+.venv/
+venv/
+env/
+
+# Игнорировать данные ClickHouse
+clickhouse_data/
+clickhouse-data/
+data/
+
+# Игнорировать файлы IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Игнорировать кэш Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Игнорировать логи и временные файлы
+*.log
+*.tmp
+*.bak
+
+# Игнорировать системные файлы
+.DS_Store
+Thumbs.db
+
+# Игнорировать файлы Docker
+docker-compose.override.yml
+
+# Игнорировать файлы окружения
+.env
