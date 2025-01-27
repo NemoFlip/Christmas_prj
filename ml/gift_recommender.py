@@ -49,7 +49,7 @@ class GiftRecommender:
             {
                 "gift_name": gift_name,
                 "gift_description": gift_description,
-                "price": price,
+                "price": int(price),
                 "image_url": image_url,
             }
             for gift_name, gift_description, price, image_url in gift_details
