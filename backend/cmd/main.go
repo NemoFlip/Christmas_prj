@@ -4,12 +4,16 @@ import (
 	_ "Christmas_prj/backend/docs"
 	"Christmas_prj/backend/internal/delivery"
 	"Christmas_prj/backend/internal/delivery/handlers"
+	"Christmas_prj/backend/internal/gateways"
 	"Christmas_prj/backend/pkg/log"
 )
 
 func main() {
 	logger := log.InitLogger()
 
-	apiServer := handlers.NewAPIServer(logger)
-	delivery.StartServer(logger, apiServer)
+	mlURL := "http://recommendation_model:5000/recommend"
+	mlGateway := gateways.NewMLGateway(mlURL)
+	giftServer := handlers.NewGiftServer(logger, mlGateway)
+
+	delivery.StartServer(logger, giftServer)
 }

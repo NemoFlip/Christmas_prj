@@ -35,22 +35,25 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/payload.UserRequest"
+                            "$ref": "#/definitions/payload.GiftRequest"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "user's preferences has been accepted",
+                        "description": "Recommended gift's details",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/payload.GiftResponse"
                         }
                     },
                     "400": {
                         "description": "invalid user's data",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
                         "schema": {
                             "type": "string"
                         }
@@ -60,25 +63,31 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "payload.UserRequest": {
+        "payload.GiftRequest": {
             "type": "object",
             "required": [
-                "age",
-                "interests",
-                "sex"
+                "description"
             ],
             "properties": {
-                "age": {
-                    "type": "integer"
-                },
-                "interests": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "sex": {
+                "description": {
                     "type": "string"
+                }
+            }
+        },
+        "payload.GiftResponse": {
+            "type": "object",
+            "properties": {
+                "gift_description": {
+                    "type": "string"
+                },
+                "gift_name": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "integer"
                 }
             }
         }

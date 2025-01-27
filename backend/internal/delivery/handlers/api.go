@@ -1,20 +1,21 @@
 package handlers
 
 import (
+	"Christmas_prj/backend/internal/gateways"
 	"Christmas_prj/backend/internal/payload"
 	"Christmas_prj/backend/pkg/log"
-	"bytes"
-	"encoding/json"
+	"Christmas_prj/backend/pkg/utility"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-type APIServer struct {
-	logger *log.Logger
+type GiftServer struct {
+	logger    *log.Logger
+	mlGateway *gateways.MLGateway
 }
 
-func NewAPIServer(logger *log.Logger) *APIServer {
-	return &APIServer{logger: logger}
+func NewGiftServer(logger *log.Logger, mlGateway *gateways.MLGateway) *GiftServer {
+	return &GiftServer{logger: logger, mlGateway: mlGateway}
 }
 
 // @Summary User request
@@ -22,40 +23,25 @@ func NewAPIServer(logger *log.Logger) *APIServer {
 // @Tags API
 // @Accept json
 // @Produce json
-// @Param user body payload.UserRequest true "user's preferences"
-// @Success 200 {object} map[string]string "user's preferences has been accepted"
+// @Param user body payload.GiftRequest true "user's preferences"
+// @Success 200 {object} payload.GiftResponse "Recommended gift's details"
 // @Failure 400 {object} string "invalid user's data"
+// @Failure 500 {object} string "internal server error"
 // @Router /api/users/data [post]
-func (s *APIServer) PostUserInfo(ctx *gin.Context) {
-	var user payload.UserRequest
-	if err := ctx.BindJSON(&user); err != nil {
-		s.logger.ErrorLogger.Error().Msgf("unable to bind user: %s", err)
+func (as *GiftServer) PostGiftInfo(ctx *gin.Context) {
+	var giftRequest payload.GiftRequest
+	if err := utility.ParseJson(ctx, &giftRequest); err != nil {
+		as.logger.ErrorLogger.Error().Msg(err.Error())
 		ctx.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	userJSON, err := json.Marshal(user)
-	if err != nil {
-		s.logger.ErrorLogger.Error().Msgf("unable to convert user struct to json: %s", err)
-		ctx.Writer.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-	r := bytes.NewBuffer(userJSON)
-	mlURL := "https://ml-model-recommendation"
-	resp, err := http.Post(mlURL, "application/json", r) //TODO: replace url
-	if err != nil {
-		s.logger.ErrorLogger.Error().Msgf("unable to send request to ml: %s", err)
-		ctx.Writer.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		s.logger.ErrorLogger.Error().Msgf("ML model responded with status: %d", resp.StatusCode)
-		ctx.Writer.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-	// TODO: сопоставлять ответ с базой данных и выдать ответ frontend
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"success": resp.Status,
-	})
+	giftResponse, err := as.mlGateway.GetGiftRecommendation(giftRequest)
+	if err != nil {
+		as.logger.ErrorLogger.Error().Msg(err.Error())
+		ctx.Writer.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, giftResponse)
 }

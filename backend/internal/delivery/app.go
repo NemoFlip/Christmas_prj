@@ -13,11 +13,11 @@ import (
 // @description Simple project with recommendation system
 // @host localhost:8080
 // @BasePath /
-func StartServer(logger *log.Logger, apiServer *handlers.APIServer) {
+func StartServer(logger *log.Logger, giftServer *handlers.GiftServer) {
 	r := gin.Default()
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	router.InitRouting(r, logger, apiServer)
+	router.InitRouting(r, giftServer)
 
 	if err := r.Run(":8080"); err != nil {
 		logger.ErrorLogger.Fatal().Msgf("unable to run server on port(8080): %s", err)
