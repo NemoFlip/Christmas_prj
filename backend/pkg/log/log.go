@@ -39,11 +39,11 @@ func InitLogger() *Logger {
 	UnitFormatter()
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 
-	loggerInfoFile, err := os.OpenFile("backend/cmd/log/log.info", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0660)
+	loggerInfoFile, err := os.OpenFile("/app/backend/cmd/log/log.info", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0660)
 	if err != nil {
 		panic("unable to open info log file")
 	}
-	loggerErrorFile, err := os.OpenFile("backend/cmd/log/logs.error", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0660)
+	loggerErrorFile, err := os.OpenFile("/app/backend/cmd/log/logs.error", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0660)
 	if err != nil {
 		panic("unable to open error log file")
 	}
