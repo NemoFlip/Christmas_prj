@@ -6,8 +6,8 @@ type GiftRequest struct {
 }
 
 type GiftResponse struct {
-	Name        string `json:"gift_name"`
-	Description string `json:"gift_description"`
-	Price       int    `json:"price"`
-	ImageURL    string `json:"image_url"`
+	Name        string  `json:"gift_name"`
+	Description string  `json:"gift_description"`
+	Price       float64 `json:"price"`
+	ImageURL    string  `json:"image_url"`
 }

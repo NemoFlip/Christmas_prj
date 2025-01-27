@@ -41,6 +41,6 @@ func validateMLResponse(response *http.Response) ([]payload.GiftResponse, error)
 	if err := json.NewDecoder(response.Body).Decode(&giftResponse); err != nil {
 		return nil, fmt.Errorf("failed to decode ML response: %s", err)
 	}
-	fmt.Println(giftResponse)
+
 	return giftResponse, nil
 }
