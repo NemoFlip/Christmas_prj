@@ -1,0 +1,57 @@
+basePath: /
+definitions:
+  payload.GiftRequest:
+    properties:
+      description:
+        type: string
+    required:
+    - description
+    type: object
+  payload.GiftResponse:
+    properties:
+      gift_description:
+        type: string
+      gift_name:
+        type: string
+      image_url:
+        type: string
+      price:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Simple project with recommendation system
+  title: Christmas prj
+paths:
+  /api/users/data:
+    post:
+      consumes:
+      - application/json
+      description: post request from user for present recommendation
+      parameters:
+      - description: user's preferences
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/payload.GiftRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Recommended gift's details
+          schema:
+            $ref: '#/definitions/payload.GiftResponse'
+        "400":
+          description: invalid user's data
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: User request
+      tags:
+      - API
+swagger: "2.0"

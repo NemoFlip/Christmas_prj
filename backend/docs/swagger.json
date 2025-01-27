@@ -1,0 +1,88 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Simple project with recommendation system",
+        "title": "Christmas prj",
+        "contact": {}
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/api/users/data": {
+            "post": {
+                "description": "post request from user for present recommendation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "API"
+                ],
+                "summary": "User request",
+                "parameters": [
+                    {
+                        "description": "user's preferences",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.GiftRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Recommended gift's details",
+                        "schema": {
+                            "$ref": "#/definitions/payload.GiftResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid user's data",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "payload.GiftRequest": {
+            "type": "object",
+            "required": [
+                "description"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "payload.GiftResponse": {
+            "type": "object",
+            "properties": {
+                "gift_description": {
+                    "type": "string"
+                },
+                "gift_name": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

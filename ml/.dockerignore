@@ -1,0 +1,9 @@
+.venv
+clickhouse_data
+data
+db
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.DS_Store
