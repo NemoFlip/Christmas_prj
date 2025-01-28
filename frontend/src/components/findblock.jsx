@@ -8,7 +8,7 @@ export function FindBlock() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://backend:8080/api/users/data', {
+      const response = await fetch('http://localhost:8080/api/users/data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
