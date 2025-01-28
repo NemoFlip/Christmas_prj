@@ -25,3 +25,11 @@ services:
       - 8080:8080
     volumes:
       - ./backend/cmd/log:/app/backend/cmd/log
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - 3000:3000
