@@ -9,7 +9,7 @@ const ProductGrid = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('ююю');
+        const response = await fetch('http://localhost:8080/api/users/data');
         if (!response.ok) {
           throw new Error('Ошибка загрузки данных');
         }
