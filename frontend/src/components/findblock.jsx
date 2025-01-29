@@ -5,6 +5,7 @@ import ProductGrid from './giftboxes.jsx';
 export function FindBlock() {
   const [recipientText, setRecipientText] = useState('');
   const [showProducts, setShowProducts] = useState(false);
+  const [products, setProducts] = useState([]); 
 
   const handleSubmit = async () => {
     try {
@@ -13,7 +14,7 @@ export function FindBlock() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: recipientText }),
+        body: JSON.stringify({ text: recipientText }), 
       });
 
       if (!response.ok) {
@@ -22,8 +23,16 @@ export function FindBlock() {
 
       const result = await response.json();
       console.log('Ответ от сервера:', result);
-      alert('Данные успешно отправлены!');
-      
+
+      const adaptedProducts = result.map((item, index) => ({
+        id: index,
+        name: item.gift_name,
+        description: item.gift_description,
+        image: item.image_url || 'https://via.placeholder.com/150',
+        price: item.price ? `${item.price} руб.` : 'Цена не указана',
+      }));
+
+      setProducts(adaptedProducts); 
       setShowProducts(true);
     } catch (error) {
       console.error('Ошибка:', error);
@@ -50,7 +59,7 @@ export function FindBlock() {
         </div>
       </div>
 
-      {showProducts && <ProductGrid />}
+      {showProducts && <ProductGrid products={products} />} {/* Передаем данные в ProductGrid */}
     </div>
   );
 }
