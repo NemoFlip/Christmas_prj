@@ -14,7 +14,16 @@ const ProductGrid = () => {
           throw new Error('Ошибка загрузки данных');
         }
         const data = await response.json();
-        setProducts(data);
+
+        const adaptedProducts = data.map((item, index) => ({
+          id: index,
+          name: item.gift_name,
+          description: item.gift_description,
+          image: item.image_url || 'https://via.placeholder.com/150',
+          price: item.price ? `${item.price} руб.` : 'Цена не указана',
+        }));
+
+        setProducts(adaptedProducts);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -22,15 +31,15 @@ const ProductGrid = () => {
       }
     };
 
-    if (products.length === 0) {
-      return;
-    }
-
     fetchProducts();
-  }, [products]);
+  }, []);
 
-  if (loading || error) {
-    return null; 
+  if (loading) {
+    return <p>Загрузка...</p>;
+  }
+
+  if (error) {
+    return <p className="error">Ошибка: {error}</p>;
   }
 
   return (
@@ -48,13 +57,10 @@ const ProductGrid = () => {
 const ProductCard = ({ product }) => {
   return (
     <div className="card">
-      <img
-        src={product.image}
-        alt={product.name}
-        className="card-image"
-      />
+      <img src={product.image} alt={product.name} className="card-image" />
       <h3>{product.name}</h3>
-      <p>Цена: {product.price} руб.</p>
+      <p>{product.description}</p>
+      <p>{product.price}</p>
     </div>
   );
 };
