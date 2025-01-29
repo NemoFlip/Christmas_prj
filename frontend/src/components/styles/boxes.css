@@ -1,10 +1,17 @@
+.product-section {
+    margin-top: 20px;
+    width: 100%; /* Занимаем всю ширину контейнера */
+    max-width: 1200px; /* Максимальная ширина сетки */
+    margin: 0 auto; /* Центрируем сетку */
+}
+
 .grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* Фиксированное количество колонок (5) */
+    grid-template-columns: repeat(5, 1fr); 
     gap: 20px;
     padding: 20px;
-    max-width: 1200px; /* Ограничиваем максимальную ширину сетки */
-    margin: 0 auto; /* Центрируем сетку */
+    max-width: 1200px; 
+    margin: 0 auto; 
 }
 
 .card {

@@ -5,16 +5,19 @@ import ProductGrid from './giftboxes.jsx';
 export function FindBlock() {
   const [recipientText, setRecipientText] = useState('');
   const [showProducts, setShowProducts] = useState(false);
-  const [products, setProducts] = useState([]); 
+  const [products, setProducts] = useState([]);
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/users/data', {
+      setProducts([]);
+      setShowProducts(false);
+
+      const response = await fetch(`http://localhost:8080/api/users/data?timestamp=${new Date().getTime()}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: recipientText }), 
+        body: JSON.stringify({ text: recipientText }),
       });
 
       if (!response.ok) {
@@ -32,7 +35,7 @@ export function FindBlock() {
         price: item.price ? `${item.price} руб.` : 'Цена не указана',
       }));
 
-      setProducts(adaptedProducts); 
+      setProducts(adaptedProducts);
       setShowProducts(true);
     } catch (error) {
       console.error('Ошибка:', error);
@@ -58,8 +61,7 @@ export function FindBlock() {
           </button>
         </div>
       </div>
-
-      {showProducts && <ProductGrid products={products} />} {/* Передаем данные в ProductGrid */}
+      {showProducts && <ProductGrid products={products} />} 
     </div>
   );
 }

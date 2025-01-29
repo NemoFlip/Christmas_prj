@@ -1,9 +1,20 @@
 import React from 'react';
-import './styles/boxes.css';
+import './styles/boxes.css'; 
 
-const ProductGrid = ({ products }) => { // Принимаем products как пропс
-  if (!products.length) {
-    return <p>Нет доступных товаров для отображения.</p>;
+const ProductCard = ({ product }) => {
+  return (
+    <div className="card">
+      <img src={product.image} alt={product.name} className="card-image" />
+      <h3>{product.name}</h3>
+      <p>{product.description}</p>
+      <p>{product.price}</p>
+    </div>
+  );
+};
+
+const ProductGrid = ({ products }) => {
+  if (!Array.isArray(products) || products.length === 0) {
+    return <div>Нет данных о продуктах</div>;
   }
 
   return (
@@ -14,17 +25,6 @@ const ProductGrid = ({ products }) => { // Принимаем products как п
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
-    </div>
-  );
-};
-
-const ProductCard = ({ product }) => {
-  return (
-    <div className="card">
-      <img src={product.image} alt={product.name} className="card-image" />
-      <h3>{product.name}</h3>
-      <p>{product.description}</p>
-      <p>{product.price}</p>
     </div>
   );
 };
