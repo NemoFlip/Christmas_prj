@@ -12,7 +12,7 @@ func main() {
 	logger := log.InitLogger()
 
 	mlURL := "http://ml_model:8000/recommend"
-	mlGateway := gateways.NewMLGateway(mlURL)
+	mlGateway := gateways.NewMLGateway(mlURL, logger)
 	giftServer := handlers.NewGiftServer(logger, mlGateway)
 
 	delivery.StartServer(logger, giftServer)
