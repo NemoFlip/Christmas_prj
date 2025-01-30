@@ -5,7 +5,6 @@ import (
 	"Christmas_prj/backend/internal/payload"
 	"Christmas_prj/backend/pkg/log"
 	"Christmas_prj/backend/pkg/utility"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -38,7 +37,6 @@ func (as *GiftServer) PostGiftInfo(ctx *gin.Context) {
 	}
 	as.logger.InfoLogger.Info().Msgf("gift Request: %s", giftRequest.Description)
 	giftRequest.TopN = 10
-	fmt.Println(giftRequest)
 
 	giftResponse, err := as.mlGateway.GetGiftRecommendation(giftRequest)
 	if err != nil {
