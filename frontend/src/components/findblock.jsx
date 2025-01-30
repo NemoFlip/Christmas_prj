@@ -8,16 +8,22 @@ export function FindBlock() {
   const [products, setProducts] = useState([]);
 
   const handleSubmit = async () => {
-    try {
-      setProducts([]);
-      setShowProducts(false);
+    console.log('Sending recipient text:', recipientText);
+    if (!recipientText) {
+      alert('Please enter some text before submitting.');
+      return;
+    }
 
+    setProducts([]);
+    setShowProducts(false);
+
+    try {
       const response = await fetch(`http://localhost:8080/api/users/data?timestamp=${new Date().getTime()}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: recipientText }),
+        body: JSON.stringify({ description: recipientText }), // Изменено здесь
       });
 
       if (!response.ok) {
@@ -26,7 +32,6 @@ export function FindBlock() {
 
       const result = await response.json();
       console.log('Ответ от сервера:', result);
-
       const adaptedProducts = result.map((item, index) => ({
         id: index,
         name: item.gift_name,
@@ -34,13 +39,17 @@ export function FindBlock() {
         image: item.image_url || 'https://via.placeholder.com/150',
         price: item.price ? `${item.price} руб.` : 'Цена не указана',
       }));
-
       setProducts(adaptedProducts);
       setShowProducts(true);
     } catch (error) {
       console.error('Ошибка:', error);
       alert('Ошибка отправки данных. Попробуйте позже.');
     }
+  };
+
+  const handleTextChange = (e) => {
+    const newText = e.target.value;
+    setRecipientText(newText);
   };
 
   return (
@@ -53,7 +62,7 @@ export function FindBlock() {
           className="textfield"
           placeholder="Мама любит готовить, вязать и слушать музыку"
           value={recipientText}
-          onChange={(e) => setRecipientText(e.target.value)}
+          onChange={handleTextChange}
         ></textarea>
         <div>
           <button className="search" onClick={handleSubmit}>
@@ -61,7 +70,7 @@ export function FindBlock() {
           </button>
         </div>
       </div>
-      {showProducts && <ProductGrid products={products} />} 
+      {showProducts && <ProductGrid products={products} />}
     </div>
   );
 }
