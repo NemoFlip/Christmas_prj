@@ -5,6 +5,7 @@ import (
 	"Christmas_prj/backend/internal/payload"
 	"Christmas_prj/backend/pkg/log"
 	"Christmas_prj/backend/pkg/utility"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -35,7 +36,9 @@ func (as *GiftServer) PostGiftInfo(ctx *gin.Context) {
 		ctx.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	as.logger.InfoLogger.Info().Msgf("gift Request: %s", giftRequest.Description)
 	giftRequest.TopN = 10
+	fmt.Println(giftRequest)
 
 	giftResponse, err := as.mlGateway.GetGiftRecommendation(giftRequest)
 	if err != nil {
@@ -43,6 +46,6 @@ func (as *GiftServer) PostGiftInfo(ctx *gin.Context) {
 		ctx.Writer.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
+	as.logger.InfoLogger.Info().Msgf("Response in post: %+v", giftResponse)
 	ctx.JSON(http.StatusOK, giftResponse)
 }
